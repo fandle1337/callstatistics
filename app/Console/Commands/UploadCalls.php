@@ -31,7 +31,6 @@ class UploadCalls extends Command
         ServiceCallUpload $serviceCallUpload
     ): void
     {
-        dd(123);
         $activeClients = $repositoryPortal->getActiveClients();
         /** @var DtoPortal $client */
         foreach ($activeClients as $client) {
