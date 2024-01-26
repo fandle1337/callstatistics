@@ -12,6 +12,7 @@ use App\Enum\EnumCallCode;
 use App\Enum\EnumCallType;
 use App\Interface\Storage\InterfaceRepositoryCall;
 use App\Models\PortalCall;
+use Carbon\Carbon;
 
 class RepositoryCall implements InterfaceRepositoryCall
 {
@@ -216,7 +217,7 @@ class RepositoryCall implements InterfaceRepositoryCall
                 'user_id'       => $dtoCall->userId,
                 'portal_number' => $dtoCall->portalNumber,
                 'duration'      => $dtoCall->duration,
-                'date'          => $dtoCall->date,
+                'date'          => Carbon::parse($dtoCall->date)->format('Y-m-d H:i:s'),
                 'cost'          => $dtoCall->cost,
                 'cost_currency' => $dtoCall->costCurrency,
                 'type_id'       => $dtoCall->typeId,

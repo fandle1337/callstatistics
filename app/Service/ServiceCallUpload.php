@@ -17,7 +17,7 @@ class ServiceCallUpload
 {
     public function __construct(
         protected InterfaceRepositorySetting $repositorySetting,
-        protected Core                       $core,
+        protected ?Core                      $core,
         protected RepositoryRestCall         $repositoryRestCall,
         protected BuilderBitrix24Client      $builderBitrix24Client,
         protected InterfaceRepositoryCall    $repositoryCall,

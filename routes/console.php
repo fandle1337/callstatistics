@@ -10,8 +10,8 @@ Artisan::command('test', function () {
             'ru',
             'nfr',
             '7ef7b47de517bfb32b13ce6002e91dac',
-            'cb45b265006a2fcc000038f40000256f4038070c7945255fbc5d0daaa76c722bcbb680',
-            'bbc4d965006a2fcc000038f40000256f40380789c392257af7df2222e7a41da7c3b236',
+            '6c63b365006a2fcc000038f40000256f40380757b7925cc1c5eb0e9efe862cab2940aa',
+            '5ce2da65006a2fcc000038f40000256f403807ba8543f353dba1f2eb2c15c49b981041',
         )
     ));
 });
