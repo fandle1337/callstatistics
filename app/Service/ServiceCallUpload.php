@@ -47,6 +47,7 @@ class ServiceCallUpload
         $callList = $this->repositoryRestCall->getCallsByPortalId($currentCallId, $lastCallId, $dtoPortal->id, $limit);
 
         if (empty($callList)) {
+            Log::debug("Проблемы с загрузкой звонков", ['ID' => $dtoPortal->id]);
             return false;
         }
 

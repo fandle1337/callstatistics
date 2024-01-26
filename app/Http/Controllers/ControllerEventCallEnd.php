@@ -22,15 +22,21 @@ class ControllerEventCallEnd extends Controller
 
     public function __invoke(Request $request): JsonResponse
     {
-        Log::debug($request);
-        exit();
-        $memberId = $request->get('member_id');
+        $memberId = $request->get('auth')['member_id'];
+        $data = $request->get('data');
 
-        $data = [];
-
+        Log::debug('asd', [$memberId, $data]);
         $dtoPortal = $this->repositoryPortal->getByMemberId($memberId);
         $dtoCall = new DtoCall(
-
+            portalId: $dtoPortal->id,
+            userId: (int)$data['PORTAL_USER_ID'],
+            portalNumber: $data['PORTAL_NUMBER'],
+            duration: (int)$data['CALL_DURATION'],
+            date: $data['CALL_START_DATE'],
+            cost: (float)$data['COST'],
+            costCurrency: $data['COST_CURRENCY'],
+            typeId: (int)$data['CALL_TYPE'],
+            codeId: (int)$data['CALL_FAILED_CODE'],
         );
 
         return $this->response(

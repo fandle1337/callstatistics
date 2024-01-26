@@ -35,9 +35,7 @@ class UploadCalls extends Command
         $activeClients = $repositoryPortal->getActiveClients();
         /** @var DtoPortal $client */
         foreach ($activeClients as $client) {
-            if (!$serviceCallUpload->upload($client)) {
-                Log::debug("Проблемы с загрузкой звонков", ['ID' => $client->id]);
-            }
+            $serviceCallUpload->upload($client);
         }
     }
 
