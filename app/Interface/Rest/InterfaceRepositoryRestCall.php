@@ -8,6 +8,6 @@ interface InterfaceRepositoryRestCall
 
     public function getLastId(): int;
 
-    public function getCallsByPortalId(int $currentCallId ,int $lastCallId, int $portalId): array;
+    public function getCallsByPortalId(int $currentCallId, int $lastCallId, int $portalId, int $limit): array;
 
 }

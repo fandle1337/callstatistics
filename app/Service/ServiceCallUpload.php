@@ -25,7 +25,7 @@ class ServiceCallUpload
     {
     }
 
-    public function upload(DtoPortal $dtoPortal): bool
+    public function upload(DtoPortal $dtoPortal, $limit = 2500): bool
     {
         $lastCallId = $this->repositorySetting->getValueByCodeAndPortalId($dtoPortal->id, 'last_call_id');
         $currentCallId = $this->repositorySetting->getValueByCodeAndPortalId($dtoPortal->id, 'current_call_id');
@@ -40,7 +40,7 @@ class ServiceCallUpload
         $newCore = $this->mapNewCore($dtoAuth);
         $newBatch = $this->mapNewBatch($newCore);
 
-        $callList = $this->repositoryRestCall->getCallsByPortalId($currentCallId, $lastCallId, $dtoPortal->id);
+        $callList = $this->repositoryRestCall->getCallsByPortalId($currentCallId, $lastCallId, $dtoPortal->id, $limit);
 
         if (empty($callList)) {
             return false;

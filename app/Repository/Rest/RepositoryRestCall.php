@@ -52,7 +52,7 @@ class RepositoryRestCall extends RepositoryRestAbstract implements InterfaceRepo
         }
     }
 
-    public function getCallsByPortalId(int $currentCallId, int $lastCallId, int $portalId): array
+    public function getCallsByPortalId(int $currentCallId, int $lastCallId, int $portalId, int $limit): array
     {
         try {
             $response = $this->batch->getTraversableListWithCount(
@@ -63,7 +63,7 @@ class RepositoryRestCall extends RepositoryRestAbstract implements InterfaceRepo
                     '>ID'  => $currentCallId,
                 ],
                 [],
-                2500
+                $limit,
             );
 
             foreach ($response as $call) {
