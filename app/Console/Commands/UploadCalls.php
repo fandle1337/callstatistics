@@ -6,6 +6,7 @@ use App\Dto\DtoPortal;
 use App\Interface\Storage\InterfaceRepositoryPortal;
 use App\Service\ServiceCallUpload;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class UploadCalls extends Command
 {
@@ -28,15 +29,14 @@ class UploadCalls extends Command
      */
     public function handle(
         InterfaceRepositoryPortal $repositoryPortal,
-        ServiceCallUpload $serviceCallUpload
+        ServiceCallUpload         $serviceCallUpload
     ): void
     {
         $activeClients = $repositoryPortal->getActiveClients();
         /** @var DtoPortal $client */
         foreach ($activeClients as $client) {
             if (!$serviceCallUpload->upload($client)) {
-                // TODO: добавить логирование
-                continue;
+                Log::debug("Проблемы с загрузкой звонков", ['ID' => $client->id]);
             }
         }
     }

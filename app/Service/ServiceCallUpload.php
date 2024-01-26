@@ -30,6 +30,10 @@ class ServiceCallUpload
         $lastCallId = $this->repositorySetting->getValueByCodeAndPortalId($dtoPortal->id, 'last_call_id');
         $currentCallId = $this->repositorySetting->getValueByCodeAndPortalId($dtoPortal->id, 'current_call_id');
 
+        if ($lastCallId <= $currentCallId) {
+            return false;
+        }
+
         $dtoAuth = new DtoAuth(
             $dtoPortal->domain,
             $dtoPortal->refreshToken,

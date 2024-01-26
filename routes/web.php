@@ -14,5 +14,5 @@ Route::match(['GET', 'POST'], '/{vue_capture?}', function (\Illuminate\Http\Requ
         "placementOptions" => $request->get("PLACEMENT_OPTIONS") ?? "{}"
     ]);
 
-})->where('vue_capture', '[\/\w\.-]*');
+})->where('vue_capture', '[\/\w\.-]*')->name("app.index");
 

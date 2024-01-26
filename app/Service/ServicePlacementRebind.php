@@ -6,7 +6,7 @@ use Bitrix24\SDK\Core\Core;
 use Bitrix24\SDK\Core\Exceptions\BaseException;
 use Bitrix24\SDK\Core\Exceptions\TransportException;
 
-class ServiceEventRebind
+class ServicePlacementRebind
 {
     public function __construct(
         protected Core $core
@@ -14,17 +14,17 @@ class ServiceEventRebind
     {
     }
 
-    public function rebind(string $event, string $handler): bool
+    public function rebind(string $placement, string $handler): bool
     {
-        $this->unbind($event, $handler);
-        return $this->bind($event, $handler);
+        $this->unbind($placement, $handler);
+        return $this->bind($placement, $handler);
     }
 
-    protected function bind(string $event, string $handler): bool
+    protected function bind(string $placement, string $handler): bool
     {
         try {
-            $this->core->call("event.bind", [
-                'EVENT'   => $event,
+            $this->core->call("placement.bind", [
+                'PLACEMENT'   => $placement,
                 'HANDLER' => $handler,
             ]);
 
@@ -35,11 +35,11 @@ class ServiceEventRebind
         }
     }
 
-    protected function unbind(string $event, string $handler): bool
+    protected function unbind(string $placement, string $handler): bool
     {
         try {
-            $this->core->call("event.unbind", [
-                'EVENT'   => $event,
+            $this->core->call("placement.unbind", [
+                'PLACEMENT'   => $placement,
                 'HANDLER' => $handler,
             ]);
 
