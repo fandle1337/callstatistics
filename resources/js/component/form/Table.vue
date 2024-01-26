@@ -16,7 +16,7 @@
             <template #body="slotProps">
                 {{ slotProps.data.totalCalls.toLocaleString() }}
             </template>
-        </Column>>
+        </Column>
         <Column field="incomingCalls" header="Входящих звонков" :sortable="true">
             <template #body="slotProps">
                 {{ slotProps.data.incomingCalls.toLocaleString() }}
