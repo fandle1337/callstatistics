@@ -57,7 +57,7 @@ class ControllerAppInstall extends Controller
         }
 
         if (!$this->servicePlacementRebind->rebind('TELEPHONY_ANALYTICS_MENU', route('app.index'))) {
-            return $this->response("не удалось назначить место встраивания", 400, 'error');
+            return $this->response("Не удалось назначить место встраивания", 400, 'error');
         }
 
         $portalInfo = $this->repositoryApp->getInfo();
