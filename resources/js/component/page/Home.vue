@@ -5,6 +5,13 @@
         <div class="text-3xl">
             Статистика звонков
         </div>
+        <div class="mt-3" v-if="isAdmin">
+            <ProgressBar
+                :text="'Проанализировано звонков'"
+                :total-calls-from-rest="analyzeData.totalCallsFromRest"
+                :total-calls-from-storage="analyzeData.totalCallsFromStorage"
+            />
+        </div>
         <div class="mt-3">
             <Filter/>
         </div>
@@ -17,7 +24,7 @@
                 :cost="dashboardData.cost"
             />
         </div>
-        <div class="mt-10">
+        <div class="mt-10" v-if="!empty(graphData)">
             <div class="text-2xl">
                 Хронология звонков
             </div>
@@ -26,20 +33,20 @@
             />
         </div>
         <div class="grid grid-flow-col justify-stretch mt-10">
-            <div>
+            <div v-if="!empty(responsibleDiagramData)">
                 <div class="text-2xl text-center">
                     Ответственные
                 </div>
                 <Diagram :data="responsibleDiagramData"/>
             </div>
-            <div class="">
+            <div v-if="!empty(numberDiagramData)">
                 <div class="text-2xl text-center">
                     Номера портала
                 </div>
                 <Diagram :data="numberDiagramData"/>
             </div>
         </div>
-        <div class="mt-10">
+        <div class="mt-10" v-if="!empty(tableData)">
             <div class="text-2xl">
                 Статистика по сотрудникам
             </div>
@@ -57,9 +64,13 @@
             :module-code="moduleCode"
             :domain="domain"
         />
+<!--        <AdminPanel
+            v-if="isAdmin"
+        />-->
     </div>
 </template>
 <script setup>
+import ProgressBar from "../ui/ProgressBar.vue"
 import {Banner} from "skyweb24.vue-review";
 import {Adv} from "skyweb24.vue-adv";
 import {Popup} from "skyweb24.vue-review";
@@ -72,11 +83,14 @@ import Table from "../form/Table.vue";
 import {useStore} from "vuex";
 import Preloader from "../ui/Preloader.vue";
 import {computed} from "vue";
+import empty from "../../utils/empty";
+import AdminPanel from "../form/AdminPanel.vue";
 
 const store = useStore()
-const moduleCode = computed(() => store.state.setting.moduleCode)
-const domain = computed(() => store.state.setting.domain)
-const userId = computed(() => store.state.setting.userId)
+const isAdmin = computed(() => store.state.settings.userPermissionGroup === 'A')
+const moduleCode = computed(() => store.state.settings.moduleCode)
+const domain = computed(() => store.state.settings.domain)
+const userId = computed(() => store.state.settings.userId)
 const isLoading = computed(() => store.state.statistics.isLoading)
 const dashboardData = computed(() => store.state.statistics.dashboardData)
 const responsibleDiagramData = computed(() => store.state.statistics.responsibleData)
@@ -84,6 +98,14 @@ const numberDiagramData = computed(() => store.state.statistics.numberData)
 const graphData = computed(() => store.state.statistics.graphData)
 const tableData = computed(() => store.state.statistics.tableData)
 const filter = computed(() => store.state.statistics.filter)
+const analyzeData = computed(() => store.state.statistics.analyzeData)
 
-store.dispatch('statistics/fetchStatistics', {year: 2023, quarter: 0})
+store.dispatch('statistics/updateStatisticsList',
+    {
+        year: filter.value.year,
+        quarter: filter.value.quarter
+    })
+    .then(() => {
+        store.commit("statistics/updateIsLoading", false)
+    })
 </script>

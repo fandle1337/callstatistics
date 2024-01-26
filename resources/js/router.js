@@ -18,7 +18,7 @@ const route = function (name, path, component, permissions, layout = LayoutDefau
             checkPermissions: function () {
                 return checkUserPermission(
                     this.permissions,
-                    store.state.setting.userPermissionGroup
+                    store.state.settings.userPermissionGroup
                 )
             },
             layout: layout
@@ -41,7 +41,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
     if(!to.meta.checkPermissions()) {
-        if(store.state.setting.isAppInstalled) {
+        if(store.state.settings.isAppInstalled) {
             next({name: "index"})
         } else {
             next({name: "404"})

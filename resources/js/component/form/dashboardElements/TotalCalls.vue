@@ -4,7 +4,12 @@
             Всего звонков
         </TemplateHeaderDefault>
         <TemplateBodyDefault>
-            {{props.totalCalls.count}} ({{toMinuteWithSeconds(props.totalCalls.seconds)}})
+            <div v-if="isLoading">
+                Загружаем данные...
+            </div>
+            <div v-else>
+                {{props.totalCalls.count.toLocaleString()}} ({{toMinute(props.totalCalls.seconds)}})
+            </div>
         </TemplateBodyDefault>
         <TemplateFooterDefault>
             <div :title="'Пропущенных звонков: ' + props.missedCalls"
@@ -25,7 +30,8 @@
 import {TemplateBoxDefault, TemplateBodyDefault, TemplateFooterDefault, TemplateHeaderDefault} from "skyweb24.vue-dashboard";
 import * as dashboard from "skyweb24.vue-dashboard";
 import {computed} from "vue";
-import {toMinuteWithSeconds} from "../../../utils/format.js";
+import {toMinute} from "../../../utils/format.js";
+import store from "../../../store";
 
 const props = defineProps({
     totalCalls: {
@@ -35,6 +41,7 @@ const props = defineProps({
         type: Number
     }
 })
+const isLoading = computed(() => store.state.statistics.isLoading)
 const theme = computed(() => {
     return dashboard.EnumThemeHeader
 })

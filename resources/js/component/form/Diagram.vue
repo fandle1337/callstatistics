@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import {ref, computed, onMounted} from "vue";
+import {ref, computed, onMounted, watch} from "vue";
 import {Theme as am5themes_Animated} from "@amcharts/amcharts5";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5percent from "@amcharts/amcharts5/percent";
@@ -15,28 +15,30 @@ const props = defineProps({
 })
 
 const chartdiv = ref(null)
+let rootChart = null
 const diagramData = computed(() => {
     return props.data
 })
 const createChart = function () {
-    const root = am5.Root.new(chartdiv.value)
+    rootChart = am5.Root.new(chartdiv.value)
 
-    root.setThemes([am5themes_Animated.new(root)])
+    rootChart.setThemes([am5themes_Animated.new(rootChart)])
 
-    const chart = root.container.children.push(
-        am5percent.PieChart.new(root, {
+    const chart = rootChart.container.children.push(
+        am5percent.PieChart.new(rootChart, {
             endAngle: 270,
             radius: am5.percent(70),
-            layout: root.horizontalLayout,
+            layout: rootChart.horizontalLayout,
         })
     )
 
-    // Create series
     const series = chart.series.push(
-        am5percent.PieSeries.new(root, {
+        am5percent.PieSeries.new(rootChart, {
             valueField: "count",
             categoryField: "name",
-            endAngle: 270
+            endAngle: 270,
+            legendLabelText: "{name}",
+            legendValueText: "[bold {fill}]{count} зв.[/]"
         })
     )
 
@@ -44,25 +46,16 @@ const createChart = function () {
         endAngle: -90
     })
 
-    // Set data
     series.data.setAll(diagramData.value)
     series.labels.template.set("forceHidden", true)
     series.ticks.template.set("forceHidden", true)
     series.appear(1000, 100)
 
-    // Set legend
-    const initialX = function (width) {
-        if (width < 1000) {
-            return am5.percent(45)
-        }
-    }
-    const initialX1 = window.innerWidth > 1230 ? am5.percent(61) : am5.percent(55)
-    const legend = chart.children.push(am5.Legend.new(root, {
-        // x: initialX(window.innerWidth),
+    const legend = chart.children.push(am5.Legend.new(rootChart, {
         y: am5.percent(25),
-        layout: root.verticalLayout,
+        layout: rootChart.verticalLayout,
         height: am5.percent(50),
-        verticalScrollbar: am5.Scrollbar.new(root, {
+        verticalScrollbar: am5.Scrollbar.new(rootChart, {
             orientation: "vertical"
         })
     }))
@@ -86,16 +79,29 @@ const createChart = function () {
 
     legend.data.setAll(series.dataItems)
 
-    const grouper = am5plugins_sliceGrouper.SliceGrouper.new(root, {
-        series: series,
-        legend: legend,
-        clickBehavior: "break",
-        threshold: 1,
-        groupName: "Другие"
+    const categoriesWithLessThanOnePercent = series.dataItems.filter(item => {
+        const values = item.values
+        return values && values.has("value") && values.get("value") < 1
     })
-}
 
+    if (categoriesWithLessThanOnePercent.length >= 2) {
+        const grouper = am5plugins_sliceGrouper.SliceGrouper.new(rootChart, {
+            series: series,
+            legend: legend,
+            clickBehavior: "break",
+            threshold: 1,
+            groupName: "Другие"
+        })
+    }
+}
 onMounted(() => {
+    createChart()
+})
+
+watch(diagramData, () =>{
+    if (rootChart) {
+        rootChart.dispose()
+    }
     createChart()
 })
 </script>

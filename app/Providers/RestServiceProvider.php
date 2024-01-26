@@ -13,7 +13,6 @@ use Sw24\Bitrix24Auth\BuilderBitrix24Client;
 use Sw24\Bitrix24Auth\BuilderDtoAuth;
 use Sw24\Bitrix24Auth\Dto\DtoAuth;
 
-
 class RestServiceProvider extends ServiceProvider
 {
     /**
@@ -21,19 +20,15 @@ class RestServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-
         $this->app->bind(DtoAuth::class, function ($app) {
-            if(env("APP_ENV") === "local") {
+            if (env("APP_ENV") === "local") {
                 return $app->get(BuilderDtoAuth::class)->fromAuthJson();
             }
-
             return $app->get(BuilderDtoAuth::class)::fromGeneralRequest(app(Request::class)->toArray());
         });
-
         $this->app->bind(BuilderDtoAuth::class, function ($app) {
             return new BuilderDtoAuth(app()->basePath() . "/.auth.json");
         });
-
         $this->app->bind(BuilderBitrix24Client::class, function ($app) {
             return new BuilderBitrix24Client(
                 $app->get(BuilderDtoAuth::class),
@@ -42,32 +37,39 @@ class RestServiceProvider extends ServiceProvider
                 env("MODULE_CODE")
             );
         });
-
         $this->app->bind(Core::class, function ($app) {
-
+            /** @var DtoAuth $dtoAuth */
+            $dtoAuth = $app->get(DtoAuth::class);
+            if (empty($dtoAuth->accessToken) or empty($dtoAuth->refreshToken)) {
+                return null;
+            }
             $builder = $app->get(BuilderBitrix24Client::class);
-
-            if(env("APP_ENV") === "local") {
+            if (env("APP_ENV") === "local") {
                 return $builder->buildCoreLocal();
             }
-
             return $builder->buildCore($app->get(DtoAuth::class));
         });
-
-        /*$this->app->bind(\Bitrix24\SDK\Core\Batch::class, function ($app) {
+        $this->app->bind(\Bitrix24\SDK\Core\Batch::class, function ($app) {
+            $dtoAuth = $app->get(DtoAuth::class);
+            if (empty($dtoAuth->accessToken) or empty($dtoAuth->refreshToken)) {
+                return null;
+            }
             return new Batch(
                 $app->get(Core::class),
                 Log::channel("rest")
             );
-        });*/
-
+        });
         $this->app->bind(Main::class, function ($app) {
+            /** @var DtoAuth $dtoAuth */
+            $dtoAuth = $app->get(DtoAuth::class);
+            if (empty($dtoAuth->accessToken) or empty($dtoAuth->refreshToken)) {
+                return null;
+            }
             return new Main(
                 $app->get(Core::class),
                 Log::channel("rest")
             );
         });
-
         $this->app->bind("app.link", function ($app) {
             $dtoRestAuth = app()->get(DtoAuth::class);
             return sprintf("https://%s/marketplace/app/%s/",

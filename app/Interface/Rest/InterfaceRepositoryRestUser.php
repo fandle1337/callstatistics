@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Interface;
+namespace App\Interface\Rest;
 
 use App\Dto\DtoRestUser;
 use Bitrix24\SDK\Services\Main\Result\UserProfileItemResult;
 
-interface InterfaceRepositoryUser
+interface InterfaceRepositoryRestUser
 {
     public function find(string $query): array;
 

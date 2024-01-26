@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('portals', function (Blueprint $table) {
             $table->id();
             $table->string('domain', 100);
-            $table->string('language', 100);
-            $table->string('license', 100);
+            $table->string('language', 100)->nullable();
+            $table->string('license', 100)->nullable();
             $table->string('member_id', 100);
             $table->string('access_token', 100);
             $table->string('refresh_token', 100);
+            $table->dateTime('date_uninstall')->nullable();
             $table->timestamps();
 
-            $table->softDeletes();
         });
     }
 

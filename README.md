@@ -9,21 +9,20 @@
 4. Выполнить команду <br>```sudo docker-compose up -d --build```
 
 ## Поднять бекенд
-1. Скопировать env <br>```cp ./app/www/.env.example ./app/www/.env```
-2. Отредактировать .env согласно всем параметрам
-3. Установить зависимости композер ```docker-compose run -u root --rm app composer i```
-4. Выполнить миграции ```docker-compose run app php artisan migrate```
-5. Для локальной разработки необходимо скопировать файл <br>
+1. Установить зависимости композер ```docker-compose run -u root --rm app composer i```
+2. Выполнить миграции ```docker-compose run --rm app php artisan migrate```
+3. Для локальной разработки необходимо скопировать файл <br>
    ```cp ./app/www/.auth.json.template ./app/www/.auth.json```<br>
-6. Сделать полные права для файла ```chmod 777 ./app/www/.auth.json```
+4. Сделать полные права для файла ```chmod 777 ./app/www/.auth.json```
    и подставить нужные авторизационные токены.
-7. Сгенерировать laravel key ```docker-compose run app php artisan key:generate```
-8. Установить права для хранилищя ```chown -R www-data:www-data ./app/www/storage```
-9. Установить символическую ссылку на хранилище ```docker-compose run app php artisan storage:link```
+5. Сгенерировать laravel key ```docker-compose run --rm app php artisan key:generate```
+6. Установить права для хранилища ```chown -R www-data:www-data ./app/www/storage```
+7. Установить символическую ссылку на хранилище ```docker-compose run --rm app php artisan storage:link```
 
 ## Поднять фронт
 1. Установить зависимости ```docker-compose run --rm npm ci```
 2. Собрать проект ```docker-compose run --rm npm run build```
+3. Команда для watch ```docker-compose run --rm --service-ports npm run watch```
 
 
 ## htaccess роутер версий проекта

@@ -20,7 +20,7 @@
     <Button
         class="ml-3"
         label="Применить"
-        @click="test"
+        @click="submit"
     />
 </template>
 
@@ -31,10 +31,8 @@ import {useStore} from "vuex";
 import {ref, computed} from "vue";
 
 const store = useStore()
-const year = ref({code: new Date().getFullYear(), name: new Date().getFullYear() + ' год'})
-const updateYear = (event) => {
-    year.value = event
-}
+const filter = computed(() => store.state.statistics.filter)
+
 const yearList = computed(() => {
     const currentYear = new Date().getFullYear()
     const years = []
@@ -48,7 +46,19 @@ const yearList = computed(() => {
     }
     return years
 })
-const quarter = ref({code: 0, name: 'Весь год'})
+const year = ref({
+    code: filter.value.year ?? new Date().getFullYear(),
+    name: filter.value.year + ' год' ?? new Date().getFullYear() + ' год'
+})
+const updateYear = (event) => {
+    year.value = event
+}
+
+const quarter = ref({
+    code: filter.value.quarter ?? 0,
+    name: filter.value.quarter === 0 ? 'Весь год' : `${filter.value.quarter} квартал`
+})
+
 const quarterList = computed(() => {
     return [
         {
@@ -76,10 +86,13 @@ const quarterList = computed(() => {
 const updateQuarter = (event) => {
     quarter.value = event
 }
-const test = () => {
-    console.log({
+const submit = () => {
+    store.commit('statistics/updateIsLoading', true)
+    store.dispatch('statistics/updateStatisticsList', {
         year: year.value.code,
         quarter: quarter.value.code
+    }).then(() => {
+        store.commit('statistics/updateIsLoading', false)
     })
 }
 </script>

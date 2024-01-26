@@ -3,12 +3,12 @@
 namespace App\Service;
 
 use App\Enum\EnumUserPermission;
-use App\Interface\InterfaceRepositoryUser;
+use App\Interface\Rest\InterfaceRepositoryRestUser;
 use Bitrix24\SDK\Services\Main\Result\UserProfileItemResult;
 
 class ServiceUserPermissions
 {
-    public function __construct(protected InterfaceRepositoryUser $repositoryUser)
+    public function __construct(protected InterfaceRepositoryRestUser $repositoryUser)
     {
     }
 

@@ -12,18 +12,18 @@ return new class extends Migration {
     {
         Schema::create('portal_calls', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('portal_id');
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedInteger('portal_number')->nullable();
-            $table->unsignedInteger('duration')->nullable();
+            $table->unsignedBigInteger('portal_id')->index();
+            $table->foreign('portal_id')->references('id')->on('portals');
+            $table->string('call_id')->nullable()->index();
+            $table->unsignedBigInteger('user_id')->nullable()->index();
+            $table->string('portal_number')->nullable()->index();
+            $table->unsignedBigInteger('duration')->nullable()->index();
             $table->dateTime('date')->nullable();
-            $table->unsignedInteger('cost')->nullable();
-            $table->string('cost_currency', 100)->nullable();
-            $table->unsignedInteger('type')->nullable();
-            $table->unsignedInteger('code')->nullable();
+            $table->float('cost', 10, 2, false)->nullable();
+            $table->string('cost_currency', 100)->nullable()->index();
+            $table->unsignedInteger('type_id')->nullable()->index();
+            $table->unsignedInteger('code_id')->nullable()->index();
             $table->timestamps();
-
-            $table->foreign('portal_id')->on('portals')->references('id');
         });
     }
 

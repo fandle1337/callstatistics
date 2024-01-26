@@ -28,14 +28,7 @@ function buildComponentIndex() {
 }
 
 // Загрузка базовых параметров приложения
-store.dispatch("setting/fetchAppSettingList").then(e => {
-    store.commit("setting/updateUserPermissionGroup", e.user_permission_group)
-    store.commit("setting/updateIsAppInstalled", e.is_app_installed)
-    store.commit("setting/updateDomain", e?.domain)
-    store.commit("setting/updateAppId", e?.app_id)
-    store.commit("setting/updateUserId", e?.user_id)
-    store.commit("setting/updateModuleCode", e?.module_code)
-}).then(() => {
+store.dispatch("settings/updateAppSettingList").then(e => {
     createApp(buildComponentIndex())
         .use(router)
         .use(store)

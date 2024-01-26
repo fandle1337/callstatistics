@@ -2,15 +2,15 @@
 
 namespace App\Http\Middleware;
 
+use App\Interface\Rest\InterfaceRepositoryRestUser;
 use Closure;
-use App\Interface\InterfaceRepositoryUser;
 use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class MiddlewareUserAdmin
 {
-    public function __construct(protected InterfaceRepositoryUser $repositoryUser) {
+    public function __construct(protected InterfaceRepositoryRestUser $repositoryUser) {
 
     }
 

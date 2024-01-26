@@ -3,7 +3,7 @@ import router from "../router";
 
 export function checkUserPermissionByName(routeName) {
     const routePermission = router.resolve({name: routeName}).meta.permissions
-    const userPermission = store.state.setting.userPermissionGroup
+    const userPermission = store.state.settings.userPermissionGroup
 
     return checkUserPermission(routePermission, userPermission)
 }

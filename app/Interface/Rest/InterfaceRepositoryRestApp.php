@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interface;
+namespace App\Interface\Rest;
 
 use Bitrix24\SDK\Services\Main\Result\ApplicationInfoItemResult;
 

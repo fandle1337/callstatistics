@@ -1,18 +1,19 @@
 <?php
 
-namespace app\Repository\Rest;
+namespace App\Repository\Rest;
 
 
 use App\Dto\DtoRestUser;
-use App\Interface\InterfaceRepositoryUser;
+use App\Interface\Rest\InterfaceRepositoryRestUser;
+use Bitrix24\SDK\Core\Core;
 use Bitrix24\SDK\Core\Exceptions\BaseException;
 use Bitrix24\SDK\Core\Exceptions\TransportException;
 use Bitrix24\SDK\Services\Main\Result\UserProfileItemResult;
 use Bitrix24\SDK\Services\Main\Service\Main;
 
-class RepositoryUser implements InterfaceRepositoryUser
+class RepositoryRestRestUser extends RepositoryRestAbstract implements InterfaceRepositoryRestUser
 {
-    public function __construct(protected \Bitrix24\SDK\Core\Core $core, protected Main $main)
+    public function __construct(protected ?Core $core, protected ?Main $main)
     {
     }
 

@@ -20,7 +20,7 @@
         </template>
         <template #key4>
             <Cost
-                :cost="props.cost"
+                :costs="props.cost"
             />
         </template>
     </Grid>

@@ -7,269 +7,31 @@ export default {
 
     state() {
         return {
-            isLoading: false,
+            isLoading: true,
             dashboardData: {
                 totalCalls: {
-                    count: 3,
-                    seconds: 1,
+                    count: null,
+                    seconds: null,
                 },
                 incomingCalls: {
-                    count: 1,
-                    seconds: 1
+                    count: null,
+                    seconds: null
                 },
                 outgoingCalls: {
-                    count: 1,
-                    seconds: 1
+                    count: null,
+                    seconds: null
                 },
-                missedCalls: 1,
-                cost: {
-                    count: 100.23,
-                    currency: 'RUR'
-                },
+                missedCalls: null,
+                cost: [],
             },
-            graphData: [
-                {
-                    date: 1425157200000,
-                    incoming: 25,
-                    outgoing: 10,
-                    missed: 1
-
-                },
-                {
-                    date: 1427835600000,
-                    incoming: 33,
-                    outgoing: 15,
-                    missed: 2
-                },
-                {
-                    date: 1430427600000,
-                    incoming: 10,
-                    outgoing: 5,
-                    missed: 3
-                },
-            ],
-            responsibleData: [
-                {
-                    name: "Анатолий Арсентьев-Рыбаков",
-                    count: 100,
-                },
-                {
-                    name: "Иван Иванов",
-                    count: 100,
-                },
-                {
-                    name: "Тест Тестов",
-                    count: 100,
-                },
-                {
-                    name: "Иван Иванов",
-                    count: 100,
-                },
-                {
-                    name: "Тест Тестов",
-                    count: 100,
-                },
-                {
-                    name: "Иван Иванов",
-                    count: 100,
-                },
-                {
-                    name: "Тест Тестов",
-                    count: 100,
-                },
-                {
-                    name: "Иван Иванов",
-                    count: 100,
-                },
-                {
-                    name: "Тест Тестов",
-                    count: 100,
-                },
-                {
-                    name: "Иван Иванов",
-                    count: 100,
-                },
-                {
-                    name: "Тест Тестов",
-                    count: 100,
-                },
-                {
-                    name: "Иван Иванов",
-                    count: 100,
-                },
-                {
-                    name: "Тест Тестов",
-                    count: 100,
-                },
-                {
-                    name: "Иван Иванов",
-                    count: 100,
-                },
-                {
-                    name: "Тест Тестов",
-                    count: 100,
-                },
-                {
-                    name: "Иван Иванов",
-                    count: 100,
-                },
-                {
-                    name: "Тест Тестов",
-                    count: 100,
-                },
-                {
-                    name: "Иван Иванов",
-                    count: 100,
-                },
-                {
-                    name: "Тест Тестов",
-                    count: 100,
-                },
-                {
-                    name: "Иван Иванов",
-                    count: 100,
-                },
-            ],
-            numberData: [
-                {
-                    name: "+7 (923) 123-12-31",
-                    count: 200
-                },
-                {
-                    name: "8(800)555-35-35",
-                    count: 200
-                },
-                {
-                    name: "8(800)555-35-35",
-                    count: 200
-                },
-                {
-                    name: "8(800)555-35-35",
-                    count: 200
-                },
-                {
-                    name: "8(800)555-35-35",
-                    count: 200
-                },
-                {
-                    name: "8(800)555-35-35",
-                    count: 200
-                },
-                {
-                    name: "8(800)555-35-35",
-                    count: 200
-                },
-                {
-                    name: "8(800)555-35-35",
-                    count: 200
-                },
-                {
-                    name: "8(800)555-35-35",
-                    count: 200
-                },
-                {
-                    name: "8(800)555-35-35",
-                    count: 200
-                },
-                {
-                    name: "8(800)555-35-35",
-                    count: 200
-                },
-                {
-                    name: "8(800)555-35-35",
-                    count: 200
-                },
-                {
-                    name: "8(800)555-35-35",
-                    count: 200
-                },
-                {
-                    name: "8(800)555-35-35",
-                    count: 200
-                },
-            ],
-            tableData: [
-                {
-                    id: 1,
-                    name: "Тест Тестов",
-                    totalCalls: 5,
-                    incomingCalls: 2,
-                    outgoingCalls: 3,
-                    totalDuration: 125,
-                    averageDuration: 32,
-                    maxDuration: 64
-                },
-                {
-                    id: 2,
-                    name: "Иван Иванов",
-                    totalCalls: 15,
-                    incomingCalls: 12,
-                    outgoingCalls: 3,
-                    totalDuration: 1125,
-                    averageDuration: 332,
-                    maxDuration: 640
-                },
-                {
-                    id: 1,
-                    name: "Тест Тестов",
-                    totalCalls: 5,
-                    incomingCalls: 2,
-                    outgoingCalls: 3,
-                    totalDuration: 125,
-                    averageDuration: 32,
-                    maxDuration: 64
-                },
-                {
-                    id: 2,
-                    name: "Иван Иванов",
-                    totalCalls: 15,
-                    incomingCalls: 12,
-                    outgoingCalls: 3,
-                    totalDuration: 1125,
-                    averageDuration: 332,
-                    maxDuration: 640
-                },
-                {
-                    id: 1,
-                    name: "Тест Тестов",
-                    totalCalls: 5,
-                    incomingCalls: 2,
-                    outgoingCalls: 3,
-                    totalDuration: 125,
-                    averageDuration: 32,
-                    maxDuration: 64
-                },
-                {
-                    id: 2,
-                    name: "Иван Иванов",
-                    totalCalls: 15,
-                    incomingCalls: 12,
-                    outgoingCalls: 3,
-                    totalDuration: 1125,
-                    averageDuration: 332,
-                    maxDuration: 640
-                },
-                {
-                    id: 1,
-                    name: "Тест Тестов",
-                    totalCalls: 5,
-                    incomingCalls: 2,
-                    outgoingCalls: 3,
-                    totalDuration: 125,
-                    averageDuration: 32,
-                    maxDuration: 64
-                },
-                {
-                    id: 2,
-                    name: "Иван Иванов",
-                    totalCalls: 15,
-                    incomingCalls: 12,
-                    outgoingCalls: 3,
-                    totalDuration: 1125,
-                    averageDuration: 332,
-                    maxDuration: 640
-                },
-            ],
+            graphData: [],
+            responsibleData: [],
+            numberData: [],
+            tableData: [],
+            analyzeData: {
+                totalCallsFromStorage: null,
+                totalCallsFromRest: null,
+            },
             filter: {
                 year: 2023,
                 quarter: 0,
@@ -280,11 +42,26 @@ export default {
         updateIsLoading(state, value) {
             state.isLoading = value
         },
-        updateCallList(state, value) {
-            state.callList = value
+        updateDashboardData(state, value) {
+            state.dashboardData = value
+        },
+        updateGraphData(state, value) {
+            state.graphData = value
+        },
+        updateResponsibleData(state, value) {
+            state.responsibleData = value
+        },
+        updateNumberData(state, value) {
+            state.numberData = value
+        },
+        updateTableData(state, value) {
+            state.tableData = value
         },
         updateFilter(state, value) {
             state.filter = value
+        },
+        updateAnalyzeData(state, value) {
+            state.analyzeData = value
         }
     },
     actions: {
@@ -297,6 +74,21 @@ export default {
                 body: JSON.stringify(payload)
             })
         },
+        async deleteAllRecords(context, payload) {
+            return request("/api/app/statistics/delete", {
+                method: "GET"
+            })
+        },
+        async updateStatisticsList(context, payload) {
+            const response = await context.dispatch("fetchStatistics", payload)
+            context.commit("updateDashboardData", response?.dashboard_stats)
+            context.commit("updateGraphData", response?.graph_stats)
+            context.commit("updateResponsibleData", response?.responsible_stats)
+            context.commit("updateNumberData", response?.number_stats)
+            context.commit("updateTableData", response?.table_stats)
+            context.commit("updateAnalyzeData", response?.analyze_stats)
+        },
+
     },
     getters: {}
 }

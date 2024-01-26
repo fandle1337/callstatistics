@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use app\Model\PortalCall;
+use App\Models\PortalCall;
 use Illuminate\Database\Seeder;
 
 class PortalCallsTableSeeder extends Seeder
@@ -12,6 +12,6 @@ class PortalCallsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        PortalCall::factory()->count(50)->create();
+        PortalCall::factory(100)->create();
     }
 }
