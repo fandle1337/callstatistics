@@ -25,22 +25,22 @@ class RepositoryProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(InterfaceRepositoryRestUser::class, function ($app) {
-            return $app->get(RepositoryRestRestUser::class);
+            return $app->make(RepositoryRestRestUser::class);
         });
         $this->app->bind(InterfaceRepositoryRestApp::class, function ($app) {
-            return $app->get(RepositoryRestRestApp::class);
+            return $app->make(RepositoryRestRestApp::class);
         });
         $this->app->bind(InterfaceRepositoryPortal::class, function ($app) {
-            return $app->get(RepositoryPortal::class);
+            return $app->make(RepositoryPortal::class);
         });
         $this->app->bind(InterfaceRepositoryCall::class, function ($app) {
-            return $app->get(RepositoryCall::class);
+            return $app->make(RepositoryCall::class);
         });
         $this->app->bind(InterfaceRepositoryRestCall::class, function ($app) {
-            return $app->get(RepositoryRestCall::class);
+            return $app->make(RepositoryRestCall::class);
         });
         $this->app->bind(InterfaceRepositorySetting::class, function ($app) {
-            return $app->get(RepositorySetting::class);
+            return $app->make(RepositorySetting::class);
         });
     }
 
