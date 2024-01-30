@@ -2,17 +2,19 @@
 
 namespace App\Http\Resources;
 
-use App\Dto\DtoGraphMonth;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class ResourceGraphStatistics
+class ResourceGraphStatistics extends JsonResource
 {
     /**
-     * @param DtoGraphMonth[] $graphData
-     * @return array
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
      */
-    public static function toArray(array $graphData): array
+    public function toArray(Request $request): array
     {
-        foreach ($graphData as $month) {
+        foreach ($this->resource as $month) {
             $result[] = [
                 'date' => $month->date,
                 'incoming' => $month->incomingCalls,

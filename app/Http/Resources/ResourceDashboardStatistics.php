@@ -2,27 +2,33 @@
 
 namespace App\Http\Resources;
 
-use App\Dto\DtoDashboardStatistics;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class ResourceDashboardStatistics
+class ResourceDashboardStatistics extends JsonResource
 {
-    public static function toArray(DtoDashboardStatistics $dto): array
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
     {
         return [
             'totalCalls'    => [
-                'count'   => $dto->totalCount,
-                'seconds' => $dto->totalSeconds,
+                'count'   => $this->totalCount,
+                'seconds' => $this->totalSeconds,
             ],
             'incomingCalls' => [
-                'count'   => $dto->incomingCount,
-                'seconds' => $dto->incomingSeconds,
+                'count'   => $this->incomingCount,
+                'seconds' => $this->incomingSeconds,
             ],
             'outgoingCalls' => [
-                'count'   => $dto->outgoingCount,
-                'seconds' => $dto->outgoingSeconds,
+                'count'   => $this->outgoingCount,
+                'seconds' => $this->outgoingSeconds,
             ],
-            'missedCalls'   => $dto->missedCount,
-            'cost'          => $dto->costs,
+            'missedCalls'   => $this->missedCount,
+            'cost'          => $this->costs,
         ];
     }
 }
