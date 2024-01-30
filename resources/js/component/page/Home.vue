@@ -16,21 +16,13 @@
             <Filter/>
         </div>
         <div class="mt-3">
-            <Dashboard
-                :totalCalls="dashboardData.totalCalls"
-                :incomingCalls="dashboardData.incomingCalls"
-                :outgoingCalls="dashboardData.outgoingCalls"
-                :missedCalls="dashboardData.missedCalls"
-                :cost="dashboardData.cost"
-            />
+            <Dashboard/>
         </div>
         <div class="mt-10" v-if="!empty(graphData)">
             <div class="text-2xl">
                 Хронология звонков
             </div>
-            <Graph
-                :data="graphData"
-            />
+            <Graph/>
         </div>
         <div class="grid grid-flow-col justify-stretch mt-10">
             <div v-if="!empty(responsibleDiagramData)">
@@ -50,9 +42,7 @@
             <div class="text-2xl">
                 Статистика по сотрудникам
             </div>
-            <Table
-                :data="tableData"
-            />
+            <Table/>
         </div>
         <Popup
             :module-code="moduleCode"
@@ -64,9 +54,9 @@
             :module-code="moduleCode"
             :domain="domain"
         />
-<!--        <AdminPanel
-            v-if="isAdmin"
-        />-->
+        <!--        <AdminPanel
+                    v-if="isAdmin"
+                />-->
     </div>
 </template>
 <script setup>

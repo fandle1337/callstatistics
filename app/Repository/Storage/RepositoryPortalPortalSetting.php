@@ -2,12 +2,12 @@
 
 namespace App\Repository\Storage;
 
-use App\Interface\Storage\InterfaceRepositorySetting;
+use App\Interface\Storage\InterfaceRepositoryPortalSetting;
 use App\Models\PortalSetting;
 
-class RepositorySetting implements InterfaceRepositorySetting
+class RepositoryPortalPortalSetting implements InterfaceRepositoryPortalSetting
 {
-    public function addOrUpdateValueByCodeAndPortalId(int $portalId, string $code, int $value): bool
+    public function addOrUpdateValueByCode(int $portalId, string $code, mixed $value): bool
     {
         return PortalSetting::updateOrCreate(
                 [
@@ -22,12 +22,12 @@ class RepositorySetting implements InterfaceRepositorySetting
             ) !== null;
     }
 
-    public function deleteByPortalId(int $portalId): bool
+    public function deleteAll(int $portalId): bool
     {
         return PortalSetting::where('portal_id', $portalId)->delete();
     }
 
-    public function getValueByCodeAndPortalId(int $portalId, string $code): int
+    public function getValueByCode(int $portalId, string $code): int
     {
         $response = PortalSetting::where('portal_id', $portalId)
             ->where('code', $code)

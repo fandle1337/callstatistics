@@ -2,6 +2,7 @@
 
 namespace App\Aggregator;
 
+use App\Dto\DtoRestUser;
 use App\Dto\DtoTableRow;
 use App\Interface\Rest\InterfaceRepositoryRestUser;
 use App\Interface\Storage\InterfaceRepositoryCall;
@@ -19,23 +20,16 @@ class AggregatorTableStatistics
     {
         $tableData = $this->repositoryCall->getTableStatistics($portalId, $date);
 
-        /** @var DtoTableRow[] $tableData */
-        foreach ($tableData as $row) {
-            $idList[] = $row->id;
-        }
-        if (empty($idList)) {
-            return [];
-        }
+        $idList = $this->getIdList($tableData);
 
-        $tableNames = $this->repositoryRestUser->getByListId($idList);
+        $nameList = $this->repositoryRestUser->getByListId($idList);
 
-        foreach ($tableNames as $user) {
-            $userName[$user->id] = $user->name . ' ' . $user->lastName;
-        }
+        $mappedNameList = $this->mapNameList($nameList);
+
         foreach ($tableData as $row) {
             $result[] = new DtoTableRow(
                 id: $row->id,
-                name: $userName[$row->id] ?? 'Имя недоступно',
+                name: $mappedNameList[$row->id] ?? 'Имя недоступно',
                 totalCalls: $row->totalCalls,
                 incomingCalls: $row->incomingCalls,
                 outgoingCalls: $row->outgoingCalls,
@@ -44,6 +38,30 @@ class AggregatorTableStatistics
                 averageDuration: $row->totalCalls > 0 ? $row->totalDuration / $row->totalCalls : 0,
                 cost: $row->cost,
             );
+        }
+        return $result ?? [];
+    }
+
+    protected function getIdList(array $tableData): array
+    {
+        /** @var DtoTableRow[] $tableData */
+        foreach ($tableData as $row) {
+            $idList[] = $row->id;
+        }
+        if (empty($idList)) {
+            return [];
+        }
+        return $idList;
+    }
+
+    /**
+     * @param DtoRestUser[] $nameList
+     * @return array
+     */
+    protected function mapNameList(array $nameList): array
+    {
+        foreach ($nameList as $name) {
+            $result[$name->id] = $name->name . ' ' . $name->lastName;
         }
         return $result ?? [];
     }

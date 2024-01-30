@@ -35,7 +35,8 @@ class AggregatorStatistics
         $table = $this->aggregatorTableStatistics->make($dtoPortal->id, $date);
         $analyze = $this->aggregatorAnalyzeStatistics->make($dtoPortal->id);
 
-        return ['dashboard_stats'   => ResourceDashboardStatistics::toArray($dashboard),
+        return [
+            'dashboard_stats'   => ResourceDashboardStatistics::toArray($dashboard),
             'graph_stats'       => ResourceGraphStatistics::toArray($graph),
             'responsible_stats' => $responsible,
             'number_stats'      => $number,

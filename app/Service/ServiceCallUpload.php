@@ -4,8 +4,9 @@ namespace App\Service;
 
 use App\Dto\DtoCall;
 use App\Dto\DtoPortal;
+use App\Enum\EnumPortalSetting;
 use App\Interface\Storage\InterfaceRepositoryCall;
-use App\Interface\Storage\InterfaceRepositorySetting;
+use App\Interface\Storage\InterfaceRepositoryPortalSetting;
 use App\Repository\Rest\RepositoryRestCall;
 use Bitrix24\SDK\Core\Batch;
 use Bitrix24\SDK\Core\Core;
@@ -16,21 +17,21 @@ use Sw24\Bitrix24Auth\Dto\DtoAuth;
 class ServiceCallUpload
 {
     public function __construct(
-        protected InterfaceRepositorySetting $repositorySetting,
-        protected ?Core                      $core,
-        protected RepositoryRestCall         $repositoryRestCall,
-        protected BuilderBitrix24Client      $builderBitrix24Client,
-        protected InterfaceRepositoryCall    $repositoryCall,
+        protected InterfaceRepositoryPortalSetting $repositorySetting,
+        protected ?Core                            $core,
+        protected RepositoryRestCall               $repositoryRestCall,
+        protected BuilderBitrix24Client            $builderBitrix24Client,
+        protected InterfaceRepositoryCall          $repositoryCall,
     )
     {
     }
 
     public function upload(DtoPortal $dtoPortal, $limit = 2500): bool
     {
-        $lastCallId = $this->repositorySetting->getValueByCodeAndPortalId($dtoPortal->id, 'last_call_id');
-        $currentCallId = $this->repositorySetting->getValueByCodeAndPortalId($dtoPortal->id, 'current_call_id');
+        $lastCallId = $this->repositorySetting->getValueByCode($dtoPortal->id, EnumPortalSetting::LAST_CALL_ID->value);
+        $currentCallId = $this->repositorySetting->getValueByCode($dtoPortal->id, EnumPortalSetting::CURRENT_CALL_ID->value);
 
-        if ($lastCallId <= $currentCallId) {
+        if (!$this->isReadyForUpload($lastCallId, $currentCallId)) {
             return false;
         }
 
@@ -41,9 +42,13 @@ class ServiceCallUpload
             $dtoPortal->memberId,
         );
 
-        $newCore = $this->mapNewCore($dtoAuth);
-        $newBatch = $this->mapNewBatch($newCore);
+        $newCore = $this->buildCore($dtoAuth);
+        $this->setCore($newCore);
 
+        $newBatch = $this->buildBatch($newCore);
+        $this->setBatch($newBatch);
+
+        /** @var DtoCall[] $callList */
         $callList = $this->repositoryRestCall->getCallsByPortalId($currentCallId, $lastCallId, $dtoPortal->id, $limit);
 
         if (empty($callList)) {
@@ -53,7 +58,7 @@ class ServiceCallUpload
 
         $lastCall = end($callList);
 
-        $this->repositorySetting->addOrUpdateValueByCodeAndPortalId($dtoPortal->id, 'current_call_id', $lastCall->callId);
+        $this->repositorySetting->addOrUpdateValueByCode($dtoPortal->id, EnumPortalSetting::CURRENT_CALL_ID->value, $lastCall->callId);
 
         $callList = $this->filterCallList($callList, $dtoPortal->id);
 
@@ -66,24 +71,29 @@ class ServiceCallUpload
         return true;
     }
 
-    protected function mapNewCore(DtoAuth $dtoAuth): Core
+    protected function buildCore(DtoAuth $dtoAuth): Core
     {
-        $newCore = $this->builderBitrix24Client->buildCore($dtoAuth);
-        $this->repositoryRestCall->setCore($newCore);
-
-        return $newCore;
+        return $this->builderBitrix24Client->buildCore($dtoAuth);
     }
 
-    protected function mapNewBatch(Core $core): Batch
+    protected function setCore(Core $core): Core
     {
-        $newBatch = new Batch(
+        $this->repositoryRestCall->setCore($core);
+        return $core;
+    }
+
+    protected function buildBatch(Core $core): Batch
+    {
+        return new Batch(
             $core,
             Log::channel("rest")
         );
+    }
+    protected function setBatch(Batch $batch): Batch
+    {
+        $this->repositoryRestCall->setBatch($batch);
 
-        $this->repositoryRestCall->setBatch($newBatch);
-
-        return $newBatch;
+        return $batch;
     }
 
     /**
@@ -104,5 +114,13 @@ class ServiceCallUpload
         }
 
         return $callList;
+    }
+
+    protected function isReadyForUpload(int $lastCallId, int $currentCallId): bool
+    {
+        if ($lastCallId <= $currentCallId) {
+            return false;
+        }
+        return true;
     }
 }

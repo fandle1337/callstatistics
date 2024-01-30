@@ -52,7 +52,7 @@ class ControllerAppInstall extends Controller
             return $this->response("Не удалось назначить обработчик события удаления приложения", 400, "error");
         }
 
-        if (!$this->serviceEventRebind->rebind('OnVoximplantCallEnd', route("app.event.rebind", ['member_id' => $this->dtoAuth->memberId]))) {
+        if (!$this->serviceEventRebind->rebind('OnVoximplantCallEnd', route("app.event.rebind"))) {
             return $this->response("Не удалось назначить обработчик события окончания разговора", 400, "error");
         }
 

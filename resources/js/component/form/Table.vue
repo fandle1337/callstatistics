@@ -1,5 +1,5 @@
 <template>
-    <DataTable :value="props.data"
+    <DataTable :value="data"
                sortField="totalCalls"
                :sortOrder="-1"
                scrollable
@@ -58,11 +58,7 @@ import {computed} from "vue";
 import {currency, formatTime} from "../../utils/format";
 
 const store = useStore()
-const props = defineProps({
-    data: {
-        type: Array
-    }
-})
+const data = computed(() => store.state.statistics.tableData)
 const domain = computed(() => store.state.settings.domain)
 
 </script>

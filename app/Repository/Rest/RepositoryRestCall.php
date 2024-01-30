@@ -82,7 +82,6 @@ class RepositoryRestCall extends RepositoryRestAbstract implements InterfaceRepo
             }
             return $result ?? [];
         } catch (BaseException|TransportException $e) {
-            dd($e);
             return [];
         }
     }

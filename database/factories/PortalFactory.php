@@ -23,8 +23,8 @@ class PortalFactory extends Factory
             'language' => 'ru',
             'license' => 'nfr',
             'member_id' => '7ef7b47de517bfb32b13ce6002e91dac',
-            'access_token' => 'b384af65006a2fcc000038f40000256f40380709c68b5e521ea5d51b5903eb02f0313b',
-            'refresh_token' => 'a303d765006a2fcc000038f40000256f403807e077e5405746f61f7daaffbd35b3c206',
+            'access_token' => '8367b765006a6d20000038f4000000014038076d21af4c45a2de539b85ef15193109ab',
+            'refresh_token' => '73e6de65006a6d20000038f4000000014038070fd50208bc83b7ef46f4e36c17e12f1e',
             'date_uninstall' => null
         ];
     }

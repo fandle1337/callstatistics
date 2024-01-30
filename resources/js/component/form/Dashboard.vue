@@ -2,25 +2,25 @@
     <Grid :col="4">
         <template #key1>
             <TotalCalls
-                :total-calls="props.totalCalls"
-                :missed-calls="props.missedCalls"
+                :total-calls="dashboardData.totalCalls"
+                :missed-calls="dashboardData.missedCalls"
             />
         </template>
         <template #key2>
             <IncomingCalls
-                :incoming-calls="props.incomingCalls"
-                :total-calls="props.totalCalls"
+                :incoming-calls="dashboardData.incomingCalls"
+                :total-calls="dashboardData.totalCalls"
             />
         </template>
         <template #key3>
             <OutgoingCalls
-                :outgoing-calls="props.outgoingCalls"
-                :total-calls="props.totalCalls"
+                :outgoing-calls="dashboardData.outgoingCalls"
+                :total-calls="dashboardData.totalCalls"
             />
         </template>
         <template #key4>
             <Cost
-                :costs="props.cost"
+                :costs="dashboardData.cost"
             />
         </template>
     </Grid>
@@ -33,45 +33,10 @@ import TotalCalls from "./dashboardElements/TotalCalls.vue";
 import IncomingCalls from "./dashboardElements/IncomingCalls.vue";
 import Cost from "./dashboardElements/Cost.vue";
 import OutgoingCalls from "./dashboardElements/OutgoingCalls.vue";
-
-const props = defineProps({
-    totalCalls: {
-        count: {
-            type: Number
-        },
-        seconds: {
-            type: Number
-        }
-    },
-    incomingCalls: {
-        count: {
-            type: Number
-        },
-        seconds: {
-            type: Number
-        }
-    },
-    outgoingCalls: {
-        count: {
-            type: Number
-        },
-        seconds: {
-            type: Number
-        }
-    },
-    missedCalls: {
-        type: Number
-    },
-    cost: {
-        count: {
-            type: Number
-        },
-        currency: {
-            type: Number
-        }
-    }
-})
+import {computed} from "vue";
 
 const store = useStore()
+const dashboardData = computed(() => store.state.statistics.dashboardData)
+
 
 </script>

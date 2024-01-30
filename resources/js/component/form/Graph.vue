@@ -7,18 +7,11 @@ import {computed, onMounted, ref, toRaw, watch} from "vue";
 import * as am5 from "@amcharts/amcharts5";
 import {color, Theme as am5themes_Animated} from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
-
-const props = defineProps({
-    data: {
-        type: Array
-    }
-})
+import store from "../../store";
 
 const chartdiv = ref(null)
 let rootChart = null
-const graphData = computed(() => {
-    return props.data
-})
+const graphData = computed(() => store.state.statistics.graphData)
 const createGraph = function () {
     rootChart = am5.Root.new(chartdiv.value);
 
